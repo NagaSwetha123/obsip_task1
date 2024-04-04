@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calculator</title>
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: rgb(190, 228, 238);
+            display: grid;
+            place-items: center;
+            height: 100vh;
+            background-size: cover;
+            
+        }
+       
+        #calculator {
+            width: 300px;
+            height: 400px;
+
+            padding: 20px;
+            border: 1px solid #cdd4d6;
+            background-color: aqua;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            display: grid;
+            grid-template-columns: 4;
+            grid-template-rows: 6;
+            grid-template-areas:
+                "result result result result"
+                "add subtract multiply divide"
+                "seven eight nine equals"
+                "four five six equals"
+                "one two three equals"
+                "zero decimal sqrt equals"
+                "power clear clear equals";
+
+        }
+
+        #result {
+            grid-area: result;
+            background-color: black;
+            padding: 10px;
+            font-size: 18px;
+            color: white;
+            text-align: right;
+            grid-column: span 4;
+        }
+
+        #equals {
+            background-color: rgb(61, 223, 59);
+            border: none;
+        }
+
+        button {
+            width: 100%;
+            height: 100%;
+            font-size: 18px;
+        }
+
+        .operator {
+            background-color: rgb(214, 214, 214);
+            border-color: aliceblue;
+        }
+    </style>
+</head>
+
+<body>
+    
+       
+   
+    <div id="calculator">
+        <div id="result">0</div>
+        <button onclick="appendValue('7')" style="grid-area: seven;">7</button>
+        <button onclick="appendValue('8')" style="grid-area: eight;">8</button>
+        <button onclick="appendValue('9')" style="grid-area: nine;">9</button>
+        <button class="operator" onclick="appendValue('+')" style="grid-area: add;">+</button>
+        <button onclick="appendValue('4')" style="grid-area: four;">4</button>
+        <button onclick="appendValue('5')" style="grid-area: five;">5</button>
+        <button onclick="appendValue('6')" style="grid-area: six;">6</button>
+        <button class="operator" onclick="appendValue('-')" style="grid-area: subtract;">-</button>
+        <button onclick="appendValue('1')" style="grid-area: one;">1</button>
+        <button onclick="appendValue('2')" style="grid-area: two;">2</button>
+        <button onclick="appendValue('3')" style="grid-area: three;">3</button>
+        <button class="operator" onclick="appendValue('*')" style="grid-area: multiply;">*</button>
+        <button onclick="appendValue('0')" style="grid-area: zero;">0</button>
+        <button onclick="calculate()" id="equals" style="grid-area: equals;">=</button>
+        <button class="operator" onclick="clearResult()" style="grid-area: clear;">C</button>
+        <button class="operator" onclick="appendValue('/')" style="grid-area: divide;">/</button>
+        <button class="operator" onclick="appendValue('.')" style="grid-area: decimal;">.</button>
+        <button class="operator" onclick="appendOperator('**')" style="grid-area: power;">^</button>
+        <button class="operator" onclick="calculateSquareRoot()" style="grid-area: sqrt;">√</button>
+    </div>
+   
+    <script>
+        let currentInput = "";
+        let currentOperator = "";
+        let result = 0;
+
+        function appendValue(value) {
+            currentInput += value;
+            document.getElementById("result").innerText = currentInput;
+        }
+
+        function appendOperator(operator) {            
+            if (currentOperator !== "" && currentOperator !== "**") {
+                calculate();                
+            }
+            currentOperator = operator;
+            currentInput += operator;
+            document.getElementById("result").innerText = currentInput;
+        }
+
+        function calculate() {
+            try {
+                result = eval(currentInput);
+                document.getElementById("result").innerText = result;
+                currentInput = result.toString();
+                currentOperator = "";
+            } catch (error) {
+                document.getElementById("result").innerText = "Error";
+                currentInput = "";
+                currentOperator = "";
+            }
+        }
+
+        function calculateSquareRoot() {
+            try {
+                result = Math.sqrt(eval(currentInput));
+                document.getElementById("result").innerText = result;
+                currentInput = result.toString();
+                currentOperator = "";
+            } catch (error) {
+                document.getElementById("result").innerText = "Error";
+                currentInput = "";
+                currentOperator = "";
+            }
+        }
+
+        function clearResult() {
+            currentInput = "";
+            currentOperator = "";
+            document.getElementById("result").innerText = "0";
+        }
+    </script>
+
+
+</body>
+
+</html>
